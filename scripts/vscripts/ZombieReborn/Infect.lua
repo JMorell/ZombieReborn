@@ -58,7 +58,7 @@ function Infect_PickMotherZombies()
             local iSkipChance = tPlayerScope.MZSpawn_SkipChance or 0
             -- if MZSpawn_SkipChance is not initialized, then the if below is guaranteed to not pass
             -- Roll for player's chance to skip being picked as MZ
-            if RandomInt(1, 100) <= iSkipChance then
+            if math.random(1, 100) <= iSkipChance then
                 -- player succeeded the roll and avoided being picked as MZ,
                 -- reduce the value of his SkipChance script scope variable (just for good measure)
                 tPlayerScope.MZSpawn_SkipChance = tPlayerScope.MZSpawn_SkipChance - 20
@@ -81,12 +81,9 @@ function Infect_PickMotherZombies()
     -- (in the future, when we surely get access to player's steamid and nickname from lua)
 
     for index,player in pairs(tMotherZombies) do
-        Infect(nil, player, bSpawnType)
+        Infect(nil, player,bSpawnType)
     end
     print("Player count: " .. iPlayerCount .. ", Mother Zombies Spawned: " .. iMotherZombieCount)
-
-    -- Mother zombie spawned
-    ZR_ZOMBIE_SPAWNED = true
 end
 
 function Infect_OnRoundFreezeEnd()
