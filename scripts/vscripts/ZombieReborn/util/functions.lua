@@ -5,20 +5,6 @@ function EHandleToHScript(iPawnId)
     return EntIndexToHScript(bit.band(iPawnId, 0x3FFF))
 end
 
---Allow something like RunScriptCode "print(activator, caller)"
-function RunScriptCodeWithActivator(hTarget, sCode, fDelay, hActivator, hCaller)
-    local tScope = hTarget:GetOrCreatePrivateScriptScope()
-    if tScope.AddActivatorCallerToScope == nil then
-        tScope.AddActivatorCallerToScope = function(para)
-            tScope.activator = para.activator;
-            tScope.caller = para.caller;
-        end
-    end 
-    DoEntFireByInstanceHandle(hTarget, "CallScriptFunction", "AddActivatorCallerToScope", fDelay, hActivator, hCaller)
-    DoEntFireByInstanceHandle(hTarget, "RunScriptCode", sCode, fDelay, nil, nil)
-    DoEntFireByInstanceHandle(hTarget, "RunScriptCode", "activator = nil; caller = nil", fDelay, nil, nil)
-end
-
 --Dump the contents of a table
 function table.dump(tbl)
     for k, v in pairs(tbl) do
@@ -30,7 +16,7 @@ end
 -- usable only for array type of tables (when keys are not strings)
 function table.shuffle(tbl)
     for i = #tbl, 2, -1 do
-        local j = math.random(i)
+        local j = RandomInt(1, i)
         tbl[i], tbl[j] = tbl[j], tbl[i]
     end
     return tbl
